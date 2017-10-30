@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+      Copyright (c) 2010 Neustar, Inc. All Rights Reserved.
+  -->
+<wsdl:definitions
+      xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+      xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+      xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+      xmlns:sipix="http://www.neustar.biz/sip_ix/prov"
+      xmlns:sipixws="http://www.neustar.biz/sip_ix/prov/wsdl"
+      targetNamespace="http://www.neustar.biz/sip_ix/prov/wsdl">
+
+  <wsdl:import namespace="http://www.neustar.biz/sip_ix/prov"
+               location="sipix-2.0.0.xsd"/>
+
+  <wsdl:message name="Request">
+    <wsdl:part name="body" element="sipix:Request"/>
+  </wsdl:message>
+
+  <wsdl:message name="Response">
+    <wsdl:part name="body" element="sipix:Response"/>
+  </wsdl:message>
+
+  <wsdl:message name="BatchRequest">
+    <wsdl:part name="body" element="sipix:BatchRequest"/>
+  </wsdl:message>
+
+  <wsdl:message name="BatchResponse">
+    <wsdl:part name="body" element="sipix:BatchResponse"/>
+  </wsdl:message>
+
+  <wsdl:portType name="SendRequestPortType">
+    <wsdl:operation name="SendRequest">
+      <wsdl:input   message="sipixws:Request"/>
+      <wsdl:output  message="sipixws:Response"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:portType name="SendBatchRequestPortType">
+    <wsdl:operation name="SendBatchRequest">
+      <wsdl:input   message="sipixws:BatchRequest"/>
+      <wsdl:output  message="sipixws:BatchResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding
+      name="SendRequestSOAPBinding"
+      type="sipixws:SendRequestPortType">
+    <soap:binding style="document"
+                  transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="SendRequest">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:binding
+      name="SendBatchRequestSOAPBinding"
+      type="sipixws:SendBatchRequestPortType">
+    <soap:binding style="document"
+                  transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="SendBatchRequest">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="SIPIX">
+    <wsdl:port name="SendRequest" binding="sipixws:SendRequestSOAPBinding">
+      <soap:address location="https://pathfinder-cte-pi.neustar.biz/nrs-pi/services/SIPIX/SendRequest"/>
+    </wsdl:port>
+  </wsdl:service>
+
+  <wsdl:service name="SIPIXBatch">
+    <wsdl:port name="SendBatchRequest" binding="sipixws:SendBatchRequestSOAPBinding">
+      <soap:address location="https://pathfinder-cte-pi.neustar.biz/nrs-pi/services/SIPIXBatch/SendBatchRequest"/>
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>

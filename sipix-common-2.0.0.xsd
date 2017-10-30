@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+      Copyright (c) 2010 Neustar, Inc. All Rights Reserved.
+  -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:sipixcom="http://www.neustar.biz/sip_ix/common"
+           targetNamespace="http://www.neustar.biz/sip_ix/common"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified"
+	   version="2.0.0">
+  <xs:annotation>
+    <xs:documentation>
+      Shared XML schema for various PathFinder modules, version 2.0.0
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:simpleType name="ReturnCodeType">
+    <xs:restriction base="xs:unsignedShort">
+      <xs:enumeration value="200"/>
+      <xs:enumeration value="201"/>
+      <xs:enumeration value="202"/>
+      <xs:enumeration value="400"/>
+      <xs:enumeration value="401"/>
+      <xs:enumeration value="403"/>
+      <xs:enumeration value="404"/>
+      <xs:enumeration value="420"/>
+      <xs:enumeration value="421"/>
+      <xs:enumeration value="500"/>
+      <xs:enumeration value="501"/>
+      <xs:enumeration value="503"/>
+      <xs:enumeration value="505"/>
+    </xs:restriction>
+  </xs:simpleType>
+ </xs:schema>

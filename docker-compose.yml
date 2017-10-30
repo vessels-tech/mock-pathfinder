@@ -1,0 +1,22 @@
+version: '2'
+services:
+  mock-pathfinder:
+    env_file: .env
+    ports:
+     - "15353:15353/udp"
+     - "8080:8080"
+    depends_on:
+     - postgres
+    networks:
+     - back
+  postgres:
+    env_file: .env
+    image: postgres:9.4
+    networks:
+     - back
+    volumes:
+     - postgres-data:/var/lib/postgresql/data
+networks:
+  back: {}
+volumes:
+  postgres-data: {}

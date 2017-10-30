@@ -1,0 +1,962 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+      Copyright (c) 2010 Neustar, Inc. All Rights Reserved.
+  -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:sipix="http://www.neustar.biz/sip_ix/prov"
+           xmlns:sipixcom="http://www.neustar.biz/sip_ix/common"
+           targetNamespace="http://www.neustar.biz/sip_ix/prov"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified"
+	   version="2.0.0">
+  <xs:annotation>
+    <xs:documentation>
+      XML schema for PathFinder provisioning interface, version 2.0.0
+    </xs:documentation>
+  </xs:annotation>
+
+<!--
+      Import common element types
+  -->
+
+  <xs:import namespace="http://www.neustar.biz/sip_ix/common"
+	     schemaLocation="sipix-common-2.0.0.xsd"/>
+
+<!--
+      Top Elements
+  -->
+ 
+  <xs:element name="Request"               type="sipix:RequestType"/>
+  <xs:element name="Response"              type="sipix:ResponseType"/>
+  <xs:element name="BatchRequest"          type="sipix:BatchRequestType"/>
+  <xs:element name="BatchResponse"         type="sipix:BatchResponseType"/>
+
+<!--
+      Response Type
+  -->
+
+  <xs:complexType name="BatchResponseType">
+    <xs:sequence>
+      <xs:element name="Response"          type="sipix:ResponseType"
+	maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ResponseType">
+    <xs:sequence>
+      <xs:element name="TransactionID"     type="xs:unsignedLong"/>
+      <xs:element name="ReturnCode"        type="sipixcom:ReturnCodeType"/>
+      <xs:element name="TextMessage"       type="sipix:TextMessageType"
+	maxOccurs="unbounded"/>
+      <xs:element name="ResponseData"      type="sipix:ResponseDataType"
+	minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ResponseDataType">
+    <xs:choice>
+      <xs:element name="DNSProfileData"      type="sipix:DNSProfileDataType"/>
+      <xs:element name="AORProfileData"      type="sipix:URIProfileDataType"/>
+      <xs:element name="ContactProfileData"  type="sipix:URIProfileDataType"/>
+      <xs:element name="CNAMProfileData"     type="sipix:CNAMProfileDataType"/>
+      <xs:element name="TNData"              type="sipix:TNDataType"
+	maxOccurs="unbounded"/>
+      <xs:element name="PendingPolicyData"      type="sipix:PendingPolicyDataType"/>
+      <xs:element name="AllPolicyData"          type="sipix:AllPolicyDataType"/>
+      <xs:element name="AllProfileData"         type="sipix:AllProfileDataType"/>
+      <xs:element name="SubscriptionPolicyData" type="sipix:TradePolicyDataType"/>
+      <xs:element name="PublicationPolicyData"  type="sipix:TradePolicyDataType"/>
+      <xs:element name="QueryPolicyData"        type="sipix:QueryPolicyDataType"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="TextMessageType">
+    <xs:simpleContent>
+      <xs:extension base="xs:normalizedString">
+        <xs:attribute name="language" type="xs:language"
+          default="en"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+<!--
+      Request Types
+  -->
+
+  <xs:complexType name="BatchRequestType">
+    <xs:sequence>
+      <xs:element name="Request"               type="sipix:RequestType"
+	maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RequestType">
+    <xs:choice>
+      <xs:element name="DefineDNSProfile"      type="sipix:DefineDNSProfileType"/>
+      <xs:element name="DefineAORProfile"      type="sipix:DefineURIProfileType"/>
+      <xs:element name="DefineContactProfile"  type="sipix:DefineURIProfileType"/>
+      <xs:element name="DefineCNAMProfile"     type="sipix:DefineCNAMProfileType"/>
+      <xs:element name="UpdateDNSProfile"      type="sipix:UpdateDNSProfileType"/>
+      <xs:element name="UpdateAORProfile"      type="sipix:UpdateURIProfileType"/>
+      <xs:element name="UpdateContactProfile"  type="sipix:UpdateURIProfileType"/>
+      <xs:element name="UpdateCNAMProfile"     type="sipix:UpdateCNAMProfileType"/>
+      <xs:element name="DeleteDNSProfile"      type="sipix:DefineProfileType"/>
+      <xs:element name="DeleteAORProfile"      type="sipix:DefineProfileType"/>
+      <xs:element name="DeleteContactProfile"  type="sipix:DefineProfileType"/>
+      <xs:element name="DeleteCNAMProfile"     type="sipix:DefineProfileType"/>
+      <xs:element name="Activate"              type="sipix:ActivateType"/>
+      <xs:element name="Deactivate"            type="sipix:DeactivateType"/>
+      <xs:element name="ChangeCNAM"            type="sipix:ChangeCNAMType"/>
+      <xs:element name="ChangeAOR"             type="sipix:ChangeURIType"/>
+      <xs:element name="ChangeContact"         type="sipix:ChangeURIType"/>
+      <xs:element name="ChangeTN"              type="sipix:ChangeTNType"/>
+      <xs:element name="QueryDNSProfile"      type="sipix:DefineProfileType"/>
+      <xs:element name="QueryAORProfile"       type="sipix:DefineProfileType"/>
+      <xs:element name="QueryContactProfile"   type="sipix:DefineProfileType"/>
+      <xs:element name="QueryCNAMProfile"      type="sipix:DefineProfileType"/>
+      <xs:element name="QueryTN"               type="sipix:QueryTNType"/>
+      <xs:element name="DefinePublicationPolicy"     type="sipix:DefineTradePolicyType"/>
+      <xs:element name="DefineSubscriptionPolicy"    type="sipix:DefineTradePolicyType"/>
+      <xs:element name="DefineQueryPolicy"           type="sipix:DefineQueryPolicyType"/>
+      <xs:element name="UpdatePublicationPolicy"     type="sipix:UpdatePolicyType"/>
+      <xs:element name="UpdateSubscriptionPolicy"    type="sipix:UpdatePolicyType"/>
+      <xs:element name="UpdateQueryPolicy"           type="sipix:UpdateQueryPolicyType"/>
+      <xs:element name="GetPublicationPolicy"        type="sipix:GetPolicyType"/>
+      <xs:element name="GetSubscriptionPolicy"       type="sipix:GetPolicyType"/>
+      <xs:element name="GetQueryPolicy"              type="sipix:GetPolicyType"/>
+      <xs:element name="DeletePublicationPolicy"     type="sipix:DeletePolicyType"/>
+      <xs:element name="DeleteSubscriptionPolicy"    type="sipix:DeletePolicyType"/>
+      <xs:element name="DeleteQueryPolicy"           type="sipix:DeletePolicyType"/>
+      <xs:element name="ListPendingPolicy"           type="sipix:BaseRequestType"/>
+      <xs:element name="ListAllPolicy"               type="sipix:BaseRequestType"/>
+      <xs:element name="ListAllProfile"              type="sipix:BaseRequestType"/>
+      <xs:element name="GetTransactionStatus"        type="sipix:BaseRequestType"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="BaseRequestType">
+    <xs:sequence>
+      <xs:element name="TransactionID" type="xs:unsignedLong"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="ProfileIDType">
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="CNAMType">
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="50"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="DefineProfileType">
+    <xs:complexContent>
+      <xs:extension base="sipix:BaseRequestType">
+        <xs:sequence>
+          <xs:element name="ProfileID" type="sipix:ProfileIDType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DefineCNAMProfileType">
+    <xs:complexContent>
+      <xs:extension base="sipix:DefineProfileType">
+        <xs:sequence>
+          <xs:element name="CNAM" type="sipix:CNAMType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UpdateCNAMProfileType">
+    <xs:complexContent>
+      <xs:extension base="sipix:DefineProfileType">
+        <xs:sequence>
+          <xs:element name="CNAM"             type="sipix:CNAMType"/>
+          <xs:element name="TransactionMode"  type="sipix:TransactionModeType"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="DomainNameType">
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="FlagsType">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="[A-Z]|[a-z]|[0-9]"/>
+      <xs:length value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ServiceType">
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="RegexpType">
+    <xs:simpleContent>
+      <xs:extension base="xs:token">
+        <xs:attribute name="pattern" type="xs:token" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:simpleType name="RegexpURIType">
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ReplacementType">
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="255"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="NAPTRType">
+    <xs:sequence>
+      <xs:element name="DomainName"  type="xs:normalizedString"/>
+      <xs:element name="Preference"  type="xs:unsignedShort"/>
+      <xs:element name="Order"       type="xs:unsignedShort"/>
+      <xs:element name="Flags"       type="sipix:FlagsType"/>
+      <xs:element name="Service"     type="sipix:ServiceType"/>
+      <xs:element name="Regexp"      type="sipix:RegexpType"/>
+      <xs:element name="Replacement" type="sipix:ReplacementType"/>
+      <xs:element name="CountryCode" type="xs:boolean"
+        minOccurs="0" default="true"/>
+      <xs:element name="Partner"     type="sipix:CustomerType"
+        minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="ttl" type="xs:unsignedInt" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="SRVType">
+    <xs:sequence>
+      <xs:element name="Target"      type="xs:normalizedString"/>
+      <xs:element name="Priority"    type="xs:unsignedShort"/>
+      <xs:element name="Weight"      type="xs:unsignedShort"/>
+      <xs:element name="Port"        type="xs:unsignedShort"/>
+      <xs:sequence minOccurs="0">
+        <xs:element name="Protocol"    type="xs:normalizedString"/>
+        <xs:element name="Service"     type="xs:normalizedString" minOccurs="0"/>
+      </xs:sequence>
+    </xs:sequence>
+    <xs:attribute name="ttl" type="xs:unsignedInt" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="NSType">
+    <xs:simpleContent>
+      <xs:extension base="xs:normalizedString">
+        <xs:attribute name="ttl" type="xs:unsignedInt" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="ReplacedNAPTRType">
+    <xs:sequence>
+      <xs:element name="DomainName"  type="xs:normalizedString"
+        minOccurs="0"/>
+      <xs:element name="Preference"  type="xs:unsignedShort"
+        minOccurs="0"/>
+      <xs:element name="Order"       type="xs:unsignedShort"
+        minOccurs="0"/>
+      <xs:element name="Flags"       type="sipix:FlagsType"
+        minOccurs="0"/>
+      <xs:element name="Service"     type="sipix:ServiceType"
+        minOccurs="0"/>
+      <xs:element name="Regexp"      type="sipix:RegexpType"
+        minOccurs="0"/>
+      <xs:element name="Replacement" type="sipix:ReplacementType"
+        minOccurs="0"/>
+      <xs:element name="CountryCode" type="xs:boolean"
+        minOccurs="0" default="true"/>
+      <xs:element name="Partner"     type="sipix:CustomerType"
+        minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="TierType">
+    <xs:restriction base="xs:unsignedShort">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="2"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="DefineDNSProfileType">
+    <xs:complexContent>
+      <xs:extension base="sipix:DefineProfileType">
+        <xs:sequence>
+          <xs:element name="Tier"  type="sipix:TierType"/>
+          <xs:element name="NS"    type="sipix:NSType"    minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="SRV"   type="sipix:SRVType"   minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="NAPTR" type="sipix:NAPTRType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UpdateDNSProfileType">
+    <xs:complexContent>
+      <xs:extension base="sipix:DefineProfileType">
+        <xs:sequence>
+          <xs:element name="NS"    type="sipix:NSType"    minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="SRV"   type="sipix:SRVType"   minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="NAPTR" type="sipix:NAPTRType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DefineURIProfileType">
+    <xs:complexContent>
+      <xs:extension base="sipix:DefineProfileType">
+        <xs:choice>
+          <xs:element name="NAPTR" type="sipix:NAPTRType" maxOccurs="unbounded"/>
+          <xs:sequence>
+            <xs:element name="BaseProfileID" type="sipix:ProfileIDType"/>
+            <xs:element name="ReplacedNAPTR" type="sipix:ReplacedNAPTRType"/>
+          </xs:sequence>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UpdateURIProfileType">
+    <xs:complexContent>
+      <xs:extension base="sipix:DefineProfileType">
+        <xs:sequence>
+          <xs:element name="NAPTR" type="sipix:NAPTRType" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="TNBaseType">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="[0-9]{1,14}"/>
+      <xs:maxLength value="14"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="TNBlockType">
+    <xs:restriction base="xs:unsignedShort">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="10000"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="CountryCodeType">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="[0-9]{1,3}"/>
+      <xs:minLength value="1"/>
+      <xs:maxLength value="3"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="TNType">
+    <xs:sequence>
+      <xs:element name="Base" type="sipix:TNBaseType"/>
+      <xs:choice>
+        <xs:element name="Stop" type="sipix:TNBaseType"  minOccurs="0"/>
+        <xs:element name="Size" type="sipix:TNBlockType" minOccurs="0"/>
+        <xs:element name="Base" type="sipix:TNBaseType"  minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+      <xs:element name="CountryCode" type="sipix:CountryCodeType"
+        minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ActivateType">
+    <xs:complexContent>
+      <xs:extension base="sipix:BaseRequestType">
+        <xs:sequence>
+          <xs:element name="TN"               type="sipix:TNType"/>
+          <xs:element name="Status"           type="sipix:TNStatusType"
+            minOccurs="0"/>
+          <xs:choice>
+            <xs:sequence>
+              <xs:element name="DNSProfileID"     type="sipix:ProfileIDType"
+                minOccurs="0"/>
+            </xs:sequence>
+            <xs:sequence>
+              <xs:element name="AORProfileID"     type="sipix:ProfileIDType"
+                minOccurs="0"/>
+              <xs:element name="ContactProfileID" type="sipix:ProfileIDType"
+                minOccurs="0"/>
+              <xs:element name="CNAMProfileID"    type="sipix:ProfileIDType"
+                minOccurs="0"/>
+            </xs:sequence>
+          </xs:choice>
+          <xs:element name="Tier"             type="sipix:TierType"
+            minOccurs="0"/>
+          <xs:element name="ActivationTime"   type="xs:dateTime"
+            minOccurs="0"/>
+          <xs:element name="Validation"       type="xs:boolean"
+            minOccurs="0"/>
+          <xs:element name="TransactionMode"  type="sipix:TransactionModeType"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DeactivateType">
+    <xs:complexContent>
+      <xs:extension base="sipix:BaseRequestType">
+        <xs:sequence>
+          <xs:element name="TN"               type="sipix:TNType"/>
+          <xs:element name="Tier"             type="sipix:TierType"
+            minOccurs="0"/>
+          <xs:element name="TransactionMode"  type="sipix:TransactionModeType"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ChangeCNAMType">
+    <xs:complexContent>
+      <xs:extension base="sipix:BaseRequestType">
+        <xs:sequence>
+          <xs:element name="TN"               type="sipix:TNType"/>
+          <xs:choice>
+            <xs:element name="ProfileID"      type="sipix:ProfileIDType"/>
+            <xs:element name="CNAM"           type="sipix:CNAMType"/>
+          </xs:choice>
+          <xs:element name="TransactionMode"  type="sipix:TransactionModeType"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ChangeURIType">
+    <xs:complexContent>
+      <xs:extension base="sipix:BaseRequestType">
+        <xs:sequence>
+          <xs:element name="TN"               type="sipix:TNType"/>
+          <xs:element name="ProfileID"        type="sipix:ProfileIDType"
+            nillable="true"/>
+          <xs:element name="TransactionMode"  type="sipix:TransactionModeType"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ChangeTNType">
+    <xs:complexContent>
+      <xs:extension base="sipix:BaseRequestType">
+        <xs:sequence>
+          <xs:element name="TN"               type="sipix:TNType"/>
+          <xs:element name="Status"           type="sipix:TNStatusType"
+            minOccurs="0"/>
+          <xs:element name="Customer"         type="sipix:CustomerType"
+            minOccurs="0"/>
+          <xs:choice>
+            <xs:sequence>
+              <xs:element name="DNSProfileID"     type="sipix:ProfileIDType"
+                minOccurs="0" nillable="true"/>
+            </xs:sequence>
+            <xs:sequence>
+              <xs:element name="AORProfileID"     type="sipix:ProfileIDType"
+                minOccurs="0" nillable="true"/>
+              <xs:element name="ContactProfileID" type="sipix:ProfileIDType"
+                minOccurs="0" nillable="true"/>
+            </xs:sequence>
+          </xs:choice>
+          <xs:element name="Tier"             type="sipix:TierType"
+            minOccurs="0"/>
+          <xs:element name="ActivationTime"   type="xs:dateTime"
+            minOccurs="0"/>
+          <xs:element name="Validation"       type="xs:boolean"
+            minOccurs="0"/>
+          <xs:element name="TransactionMode"  type="sipix:TransactionModeType"
+            minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryTNType">
+    <xs:complexContent>
+      <xs:extension base="sipix:BaseRequestType">
+        <xs:sequence>
+          <xs:choice>
+            <xs:element name="TN"               type="sipix:TNType"/>
+            <xs:element name="DNSProfileID"     type="sipix:ProfileIDType"/>
+            <xs:element name="AORProfileID"     type="sipix:ProfileIDType"/>
+            <xs:element name="ContactProfileID" type="sipix:ProfileIDType"/>
+          </xs:choice>
+          <xs:element name="Tier"       type="sipix:TierType" minOccurs="0"/>
+          <xs:element name="Validation" type="xs:boolean"     minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+<!--
+      Policy Types
+  -->
+
+  <xs:simpleType name="PolicyIDType">
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="PolicyRuleTypeType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="inclusive"/>
+      <xs:enumeration value="exclusive"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="PolicyRuleType">
+    <xs:sequence>
+      <xs:element name="Order"    type="xs:unsignedShort"/>
+      <xs:element name="Type"     type="sipix:PolicyRuleTypeType"/>
+      <xs:choice>
+        <xs:element name="TN"     type="sipix:TNType"   maxOccurs="unbounded"/>
+        <xs:element name="Regexp" type="xs:token"/>
+      </xs:choice>
+      <xs:element name="PSTN"     type="sipix:PSTNRuleType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="SPIDType">
+    <xs:restriction base="xs:string">
+       <xs:length value="4"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="LRNType">
+    <xs:sequence>
+      <xs:element name="Base" type="sipix:TNBaseType"/>
+      <xs:choice>
+        <xs:element name="Stop" type="sipix:TNBaseType"  minOccurs="0"/>
+        <xs:element name="Size" type="sipix:TNBlockType" minOccurs="0"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="SVType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Wireline"/>
+      <xs:enumeration value="Wireless"/>
+      <xs:enumeration value="VoIP"/>
+      <xs:enumeration value="VoWiFi"/>
+      <xs:enumeration value="PrepaidWireless"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="PSTNRuleType">
+    <xs:sequence>
+      <xs:choice>
+	<xs:sequence>
+          <xs:element name="SPID"     type="sipix:SPIDType"/>
+          <xs:element name="AltSPID"  type="sipix:SPIDType" minOccurs="0"/>
+	</xs:sequence>
+	<xs:sequence>
+          <xs:element name="AltSPID"  type="sipix:SPIDType"/>
+          <xs:element name="SPID"     type="sipix:SPIDType" minOccurs="0"/>
+	</xs:sequence>
+      </xs:choice>
+      <xs:element name="LRN"      type="sipix:LRNType" minOccurs="0"/>
+      <xs:element name="SVType"   type="sipix:SVType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PolicyRuleOrderType">
+    <xs:sequence>
+      <xs:element name="Order"    type="xs:unsignedShort"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DefinePolicyType">
+    <xs:complexContent>
+      <xs:extension base="sipix:BaseRequestType">
+        <xs:sequence>
+          <xs:element name="PolicyID"   type="sipix:PolicyIDType"/>
+          <xs:element name="Priority"   type="xs:unsignedInt"/>
+          <xs:element name="PolicyRule" type="sipix:PolicyRuleType"
+            minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DefineTradePolicyType">
+    <xs:complexContent>
+      <xs:extension base="sipix:DefinePolicyType">
+        <xs:sequence>
+          <xs:element name="Partner"    type="sipix:CustomerType"
+            minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UpdatePolicyType">
+    <xs:complexContent>
+      <xs:extension base="sipix:BaseRequestType">
+        <xs:sequence>
+          <xs:element name="PolicyID"   type="sipix:PolicyIDType"/>
+          <xs:choice>
+            <xs:element name="Status"      type="sipix:UpdatePolicyStatusType"/>
+            <xs:element name="Priority"    type="xs:unsignedInt"/>
+            <xs:element name="PolicyRule"  type="sipix:PolicyRuleType"
+              minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="Partner"     type="sipix:PartnerOptDataType"
+              minOccurs="0" maxOccurs="unbounded"/>
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GetPolicyType">
+    <xs:complexContent>
+      <xs:extension base="sipix:BaseRequestType">
+        <xs:sequence>
+          <xs:element name="PolicyID"   type="sipix:PolicyIDType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DeletePolicyType">
+    <xs:complexContent>
+      <xs:extension base="sipix:BaseRequestType">
+        <xs:sequence>
+          <xs:element name="PolicyID"   type="sipix:PolicyIDType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="PartnerStatusType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="pending"/>
+      <xs:enumeration value="granted"/>
+      <xs:enumeration value="rejected"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="PartnerDataType">
+    <xs:simpleContent>
+      <xs:extension base="sipix:CustomerType">
+        <xs:attribute name="status" type="sipix:PartnerStatusType" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartnerOptDataType">
+    <xs:simpleContent>
+      <xs:extension base="sipix:CustomerType">
+        <xs:attribute name="status" type="sipix:PartnerStatusType" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="DefineQueryPolicyType">
+    <xs:complexContent>
+      <xs:extension base="sipix:DefinePolicyType">
+        <xs:sequence>
+          <xs:element name="Purpose"  type="sipix:QueryPolicyPurposeType"/>
+          <xs:element name="Partner"  type="sipix:PartnerPrecedenceType"
+            minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="ReplacedNAPTR" type="sipix:ReplacedNAPTRType"
+            minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UpdateQueryPolicyType">
+    <xs:complexContent>
+      <xs:extension base="sipix:BaseRequestType">
+        <xs:sequence>
+          <xs:element name="PolicyID"   type="sipix:PolicyIDType"/>
+          <xs:choice>
+            <xs:element name="Status"        type="sipix:UpdatePolicyStatusType"/>
+            <xs:element name="Priority"      type="xs:unsignedInt"/>
+            <xs:element name="PolicyRule"    type="sipix:PolicyRuleType"
+              minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="Partner"       type="sipix:PartnerPrecedenceType"
+              minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="ReplacedNAPTR" type="sipix:ReplacedNAPTRType"
+              minOccurs="0" maxOccurs="unbounded"/>
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="UpdatePolicyStatusType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="active"/>
+      <xs:enumeration value="inactive"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+ 
+<!--
+      Response Data Types
+  -->
+
+  <xs:complexType name="DNSProfileDataType">
+    <xs:sequence>
+      <xs:element name="ProfileID"     type="sipix:ProfileIDType"/>
+      <xs:element name="Customer"      type="sipix:CustomerType"/>
+      <xs:element name="DateCreated"   type="xs:dateTime"/>
+      <xs:element name="DateUpdated"   type="xs:dateTime"
+        minOccurs="0"/>
+      <xs:element name="IsInUse"       type="xs:boolean"/>
+      <xs:element name="Tier"          type="sipix:TierType"/>
+      <xs:element name="NS"            type="sipix:NSType"    minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="SRV"           type="sipix:SRVType"   minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="NAPTR"         type="sipix:NAPTRType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="URIProfileDataType">
+    <xs:sequence>
+      <xs:element name="ProfileID"     type="sipix:ProfileIDType"/>
+      <xs:element name="Customer"      type="sipix:CustomerType"/>
+      <xs:element name="DateCreated"   type="xs:dateTime"/>
+      <xs:element name="DateUpdated"   type="xs:dateTime"
+        minOccurs="0"/>
+      <xs:element name="IsInUse"       type="xs:boolean"/>
+      <xs:element name="BaseProfileID" type="sipix:ProfileIDType"
+        minOccurs="0"/>
+      <xs:element name="ParentPolicyID" type="sipix:PolicyIDType"
+        minOccurs="0"/>
+      <xs:element name="NAPTR"         type="sipix:NAPTRType"
+        maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CNAMProfileDataType">
+    <xs:sequence>
+      <xs:element name="ProfileID"     type="sipix:ProfileIDType"/>
+      <xs:element name="Customer"      type="sipix:CustomerType"/>
+      <xs:element name="DateCreated"   type="xs:dateTime"/>
+      <xs:element name="DateUpdated"   type="xs:dateTime"
+        minOccurs="0"/>
+      <xs:element name="IsInUse"       type="xs:boolean"/>
+      <xs:element name="CNAM"          type="sipix:CNAMType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TNDataType">
+    <xs:sequence>
+      <xs:element name="TN"               type="sipix:TNType"/>
+      <xs:element name="Customer"         type="sipix:CustomerType"/>
+      <xs:element name="DateCreated"      type="xs:dateTime"/>
+      <xs:element name="DateUpdated"      type="xs:dateTime"
+        minOccurs="0"/>
+      <xs:element name="DateActivateded"  type="xs:dateTime"
+        minOccurs="0"/>
+      <xs:element name="Status"           type="sipix:TNStatusType"/>
+      <xs:choice>
+        <xs:sequence>
+          <xs:element name="DNSProfileID"     type="sipix:ProfileIDType"
+            minOccurs="0"/>
+        </xs:sequence>
+        <xs:sequence>
+          <xs:element name="AORProfileID"     type="sipix:ProfileIDType"
+            minOccurs="0"/>
+          <xs:element name="ContactProfileID" type="sipix:ProfileIDType"
+            minOccurs="0"/>
+          <xs:choice>
+            <xs:element name="CNAMProfileID"  type="sipix:ProfileIDType"
+              minOccurs="0"/>
+            <xs:element name="CNAM"           type="sipix:CNAMType"
+              minOccurs="0"/>
+          </xs:choice>
+        </xs:sequence>
+      </xs:choice>
+      <xs:element name="Tier"             type="sipix:TierType"
+        minOccurs="0"/>
+      <xs:element name="ActivationTime"   type="xs:dateTime"
+        minOccurs="0"/>
+      <xs:element name="ValidationStatus" type="sipix:ValidationStatusType"
+        minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="TNStatusType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="active"/>
+      <xs:enumeration value="inactive"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="TransactionModeType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="sync"/>
+      <xs:enumeration value="async"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="CustomerType">
+    <xs:simpleContent>
+      <xs:extension base="xs:normalizedString">
+        <xs:attribute name="id" type="xs:unsignedInt" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="PartnerPrecedenceType">
+    <xs:simpleContent>
+      <xs:extension base="sipix:CustomerType">
+        <xs:attribute name="precedence" type="xs:unsignedInt" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="PendingPolicyDataType">
+    <xs:sequence>
+      <xs:element name="QueryPolicy"        type="sipix:PendingPolicyDataIDType"
+            minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="PublicationPolicy"  type="sipix:PendingPolicyDataIDType"
+            minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="SubscriptionPolicy" type="sipix:PendingPolicyDataIDType"
+            minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PendingPolicyDataIDType">
+    <xs:sequence>
+      <xs:element name="Customer"         type="sipix:CustomerType"/>
+      <xs:element name="PolicyID"         type="sipix:PolicyIDType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AllPolicyDataType">
+    <xs:sequence>
+      <xs:element name="QueryPolicyID"        type="sipix:QueryPolicyIDDataType"
+            minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="PublicationPolicyID"  type="sipix:PolicyIDDataType"
+            minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="SubscriptionPolicyID" type="sipix:PolicyIDDataType"
+            minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PolicyIDDataType">
+    <xs:simpleContent>
+      <xs:extension base="sipix:PolicyIDType">
+        <xs:attribute name="status" type="sipix:PolicyStatusType"
+	  use="required"/>
+        <xs:attribute name="priority" type="xs:unsignedInt"
+	  use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryPolicyIDDataType">
+    <xs:simpleContent>
+      <xs:extension base="sipix:PolicyIDDataType">
+        <xs:attribute name="purpose" type="sipix:QueryPolicyPurposeType"
+	  use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="PolicyDataType">
+    <xs:sequence>
+      <xs:element name="PolicyID"         type="sipix:PolicyIDType"/>
+      <xs:element name="Customer"         type="sipix:CustomerType"/>
+      <xs:element name="DateCreated"      type="xs:dateTime"/>
+      <xs:element name="DateUpdated"      type="xs:dateTime"
+        minOccurs="0"/>
+      <xs:element name="DateActivated"    type="xs:dateTime"
+        minOccurs="0"/>
+      <xs:element name="DateDeactivated"  type="xs:dateTime"
+        minOccurs="0"/>
+      <xs:element name="Status"           type="sipix:PolicyStatusType"/>
+      <xs:element name="Priority"         type="xs:unsignedInt"/>
+      <xs:element name="PolicyRule"       type="sipix:PolicyRuleType"
+        minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="PolicyStatusType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="pending-inactive"/>
+      <xs:enumeration value="pending-active"/>
+      <xs:enumeration value="active"/>
+      <xs:enumeration value="inactive"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="TradePolicyDataType">
+    <xs:complexContent>
+      <xs:extension base="sipix:PolicyDataType">
+        <xs:sequence>
+          <xs:element name="Partner"          type="sipix:PartnerDataType"
+            minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="QueryPolicyDataType">
+    <xs:complexContent>
+      <xs:extension base="sipix:PolicyDataType">
+        <xs:sequence>
+          <xs:element name="Purpose"       type="sipix:QueryPolicyPurposeType"/>
+          <xs:element name="Partner"       type="sipix:PartnerPrecedenceType"
+            minOccurs="0" maxOccurs="unbounded"/>
+	  <xs:element name="ReplacedNAPTR" type="sipix:ReplacedNAPTRType"
+            minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="QueryPolicyPurposeType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="multiview"/>
+      <xs:enumeration value="override"/>
+      <xs:enumeration value="precedence"/>
+      <xs:enumeration value="pstn-data"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="AllProfileDataType">
+    <xs:sequence>
+      <xs:element name="AORProfileID"      type="sipix:ProfileIDType"
+            minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="ContactProfileID"  type="sipix:ProfileIDType"
+            minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="CNAMProfileID"     type="sipix:ProfileIDType"
+            minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="DNSProfileID"      type="sipix:ProfileIDType"
+            minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="ValidationStatusType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="none"/>
+      <xs:enumeration value="pending"/>
+      <xs:enumeration value="authoritative"/>
+      <xs:enumeration value="non-authoritative"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

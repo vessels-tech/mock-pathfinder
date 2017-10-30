@@ -1,0 +1,6 @@
+version: '2'
+services:
+  mock-pathfinder:
+    build: .
+    environment:
+     MOPF_DATABASE_URI: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/mock_pathfinder"
