@@ -8,7 +8,7 @@ The mock-pathfinder server supports two APIs: the Query API over DNS, and the Pr
 ## Query API
 The Query API is designed to work with the [DNS ENUM protocol](https://tools.ietf.org/html/rfc6116). In order for NAPTR records to be retrieved successfully through the Query API, the records must first be created using the [Provisioning API](#provisioning-api).
 
-Requests can be made against the API using the open source tool `dig`, or using a client like [pathfinder-query-client](https://github.com/@mojaloop/pathfinder-query-client).  
+Requests can be made against the API using the open source tool `dig`, or using a client like [pathfinder-query-client](https://github.com/mojaloop/pathfinder-query-client).  
 
 * [Example](#example-using-dig)
 
@@ -40,7 +40,7 @@ Requests can be made against the API using the open source tool `dig`, or using 
 ## Provisioning API
 The Provisioning API is a SOAP API used to create NAPTR records and associate them with phone numbers. After these records are provisioned, they can be retrieved through the [Query API](#query-api). 
 
-Requests can be made using any HTTP client, or using a dedicated client like [pathfinder-provisioning-client](https://github.com/@mojaloop/pathfinder-provisioning-client).
+Requests can be made using any HTTP client, or using a dedicated client like [pathfinder-provisioning-client](https://github.com/mojaloop/pathfinder-provisioning-client).
 
 * [Creating NAPTR records for a phone number](#creating-naptr-records-for-a-phone-number)
 * [List of commands](#commands)
