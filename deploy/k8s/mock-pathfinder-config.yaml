@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mock-pathfinder-config
+  labels:
+      app: mock-pathfinder
+data:
+  ## default config
+  default.json: |
+    {
+      "QUERY": {
+        "PORT": 15353,
+        "DEFAULT_RECORD": {
+          "order": 10,
+          "preference": 50,
+          "flags": "u",
+          "service": "E2U+pstn:tel",
+          "regexp": "!^(.*)$!tel:\\1;q_stat=102!",
+          "replacement": "",
+          "ttl": 900
+        }
+      },
+      "PROVISIONING": {
+        "PORT": 8080,
+        "PATH": "/nrs-pi/services/SIPIX/SendRequest",
+        "WSDL_FILE": "./sipix-2.0.0.wsdl",
+        "DEFAULT_CUSTOMER_ID": 1234
+      }
+    }
+  ## default knexfile config
+  knexfile.js: |
+    'use strict'
+
+    const migrationsDirectory = '/opt/mock-pathfinder/migrations'
+    const Config = require('/opt/mock-pathfinder/src/lib/config')
+
+    module.exports = {
+      client: 'pg',
+      connection: Config.DATABASE_URI,
+      migrations: {
+        directory: migrationsDirectory,
+        tableName: 'migrations',
+        stub: `${migrationsDirectory}/migration.template`
+      }
+    }
+
