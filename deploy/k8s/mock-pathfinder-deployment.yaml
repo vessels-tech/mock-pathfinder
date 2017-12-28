@@ -1,0 +1,46 @@
+---
+ apiVersion: extensions/v1beta1
+ kind: Deployment
+ metadata:
+    name: mock-pathfinder-deployment
+    labels:
+      app: mock-pathfinder
+ spec:
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          app: mock-pathfinder
+      spec:
+        containers:
+          - name: mock-pathfinder
+            image: mojaloop/mock-pathfinder:latest
+            ports:
+              - name: provisioning
+                containerPort: 8080
+              - name: query
+                containerPort: 15353
+            # livenessProbe:
+            #   httpGet:
+            #     path: /health
+            #     port: 3001
+            #   initialDelaySeconds: 60
+            #   periodSeconds: 10
+            env:
+              - name: MOPF_DATABASE_URI
+                valueFrom:
+                  secretKeyRef:
+                    name: mock-pathfinder-secret
+                    key: db.uri
+            volumeMounts:
+            - name: config-volume
+              mountPath: /opt/mock-pathfinder/config
+        volumes:
+          - name: config-volume
+            configMap:
+              name: mock-pathfinder-config
+              items:
+              - key: default.json
+                path: default.json
+              - key: knexfile.js
+                path: knexfile.js

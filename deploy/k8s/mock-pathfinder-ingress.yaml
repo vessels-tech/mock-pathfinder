@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: mock-pathfinder
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: '/'
+  labels:
+      app: mock-pathfinder
+spec:
+  rules:
+    - host: mock-pathfinder.local
+      http:
+        paths:
+        - path: /p
+          backend:
+            serviceName: mock-pathfinder
+            servicePort: 8080
+        - path: /q
+          backend:
+            serviceName: mock-pathfinder
+            servicePort: 15353

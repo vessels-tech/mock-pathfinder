@@ -1,0 +1,18 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: mock-pathfinder
+  labels:
+    app: mock-pathfinder
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: provisioning
+      protocol: TCP
+    - port: 15353
+      targetPort: 15353
+      name: query
+      protocol: TCP
+  selector:
+    app: mock-pathfinder

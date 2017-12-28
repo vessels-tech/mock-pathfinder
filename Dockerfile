@@ -4,7 +4,7 @@ WORKDIR /opt/mock-pathfinder
 COPY src /opt/mock-pathfinder/src
 COPY migrations /opt/mock-pathfinder/migrations
 COPY config /opt/mock-pathfinder/config
-COPY package.json .npmrc sipix-2.0.0.wsdl sipix-2.0.0.xsd sipix-common-2.0.0.xsd /opt/mock-pathfinder/
+COPY package.json sipix-2.0.0.wsdl sipix-2.0.0.xsd sipix-common-2.0.0.xsd /opt/mock-pathfinder/
 
 RUN npm install --production && \
   npm uninstall -g npm
