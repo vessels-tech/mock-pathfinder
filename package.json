@@ -45,7 +45,7 @@
     "bitsyntax": "0.0.4",
     "bluebird": "3.5.0",
     "google-libphonenumber": "^3.0.5",
-    "moment": "2.18.1",
+    "moment": "2.22.2",
     "native-dns-packet": "0.1.1",
     "rc": "1.1.6",
     "soap": "0.21.0",
