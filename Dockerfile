@@ -3,8 +3,6 @@ USER root
 
 WORKDIR /opt/mock-pathfinder
 
-
-
 RUN apk add --no-cache -t build-dependencies git make gcc g++ python libtool autoconf automake \
     && cd $(npm root -g)/npm \
     && npm config set unsafe-perm true \
