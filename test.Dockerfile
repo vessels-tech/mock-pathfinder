@@ -10,7 +10,7 @@ RUN apk add --no-cache -t build-dependencies git make gcc g++ python libtool aut
     && apk --no-cache add git
 
 COPY package.json package-lock.json* /opt/mock-pathfinder/
-RUN npm install --production
+RUN npm install
 
 RUN apk del build-dependencies
 
